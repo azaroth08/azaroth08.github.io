@@ -1,0 +1,18 @@
+on: [push]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan YOUR_LXC_IP >> ~/.ssh/known_hosts
+      - name: Deploy
+        run: |
+          rsync -r ./ user@YOUR_LXC_IP:/var/www/portfolio/ \
+          --exclude='.git' \
+          --exclude='.forgejo' \
+          --exclude='.github'
