@@ -10,6 +10,9 @@ jobs:
           echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan 10.0.100.169 >> ~/.ssh/known_hosts
+      - name: Install RSync
+        run: |
+          apt update && apt install rsync -y
       - name: Deploy
         run: |
           rsync -r ./ root@10.0.100.169:/var/www/portfolio/ \
