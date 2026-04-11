@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jayson Chaykowski</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Barlow+Condensed:wght@300;600;700&family=Barlow:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0f0d;
+    --surface: #181815;
+    --border: #2a2a26;
+    --accent: #c8a84b;
+    --accent2: #4b8fc8;
+    --text: #d4d0c4;
+    --muted: #6b6860;
+    --mono: 'IBM Plex Mono', monospace;
+    --display: 'Barlow Condensed', sans-serif;
+    --body: 'Barlow', sans-serif;
+  }
+ 
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+  html { scroll-behavior: smooth; }
+ 
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    font-weight: 300;
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+ 
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+ 
+  /* HEADER */
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 3rem 2rem 2.5rem;
+    max-width: 860px;
+    margin: 0 auto;
+    animation: fadeUp 0.8s ease both;
+  }
+ 
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+ 
+  h1 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(3.5rem, 8vw, 6rem);
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    color: #ebe8dc;
+    margin-bottom: 1.4rem;
+  }
+ 
+  h1 span {
+    color: var(--accent);
+  }
+ 
+  .tagline {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 520px;
+    line-height: 1.6;
+  }
+ 
+  .tagline strong {
+    color: var(--text);
+    font-weight: 400;
+  }
+ 
+  /* NAV */
+  nav {
+    margin-top: 2rem;
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+ 
+  nav a {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+ 
+  nav a:hover { color: var(--accent); }
+ 
+  /* MAIN LAYOUT */
+  main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 2rem 6rem;
+  }
+ 
+  section {
+    padding: 3.5rem 0;
+    border-bottom: 1px solid var(--border);
+    animation: fadeUp 0.8s ease both;
+  }
+ 
+  section:last-child { border-bottom: none; }
+ 
+  .section-label {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+ 
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+ 
+  h2 {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    letter-spacing: 0.01em;
+    color: #ebe8dc;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+  }
+ 
+  p { margin-bottom: 1rem; color: var(--text); }
+  p:last-child { margin-bottom: 0; }
+ 
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 1.5rem;
+  }
+ 
+  @media (max-width: 600px) {
+    .about-grid { grid-template-columns: 1fr; }
+  }
+ 
+  .about-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 1.4rem;
+  }
+ 
+  .about-card h3 {
+    font-family: var(--display);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 0.6rem;
+  }
+ 
+  .about-card p {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin: 0;
+    line-height: 1.6;
+  }
+ 
+  /* EXPERIENCE */
+  .job {
+    margin-bottom: 2.8rem;
+    padding-left: 1.2rem;
+    border-left: 2px solid var(--border);
+    position: relative;
+    transition: border-color 0.2s;
+  }
+ 
+  .job:hover { border-left-color: var(--accent); }
+ 
+  .job::before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    top: 6px;
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+ 
+  .job:hover::before { opacity: 1; }
+ 
+  .job:last-child { margin-bottom: 0; }
+ 
+  .job-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin-bottom: 0.3rem;
+  }
+ 
+  .job-title {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: #ebe8dc;
+    letter-spacing: 0.02em;
+  }
+ 
+  .job-date {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+ 
+  .job-org {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--accent2);
+    letter-spacing: 0.06em;
+    margin-bottom: 0.9rem;
+  }
+ 
+  .job ul {
+    list-style: none;
+    padding: 0;
+  }
+ 
+  .job ul li {
+    font-size: 0.92rem;
+    color: var(--muted);
+    padding: 0.25rem 0;
+    padding-left: 1rem;
+    position: relative;
+    line-height: 1.55;
+  }
+ 
+  .job ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--border);
+    font-size: 0.8rem;
+  }
+ 
+  /* SKILLS */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+ 
+  .skill-group {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 1.2rem;
+  }
+ 
+  .skill-group h3 {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.8rem;
+  }
+ 
+  .skill-group ul {
+    list-style: none;
+  }
+ 
+  .skill-group ul li {
+    font-size: 0.88rem;
+    color: var(--muted);
+    padding: 0.15rem 0;
+  }
+ 
+  /* PROJECTS */
+  .project-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+ 
+  @media (max-width: 600px) {
+    .project-grid { grid-template-columns: 1fr; }
+  }
+ 
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 1.4rem;
+    transition: border-color 0.2s, transform 0.2s;
+    cursor: default;
+  }
+ 
+  .project-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+ 
+  .project-card h3 {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: #ebe8dc;
+    letter-spacing: 0.03em;
+    margin-bottom: 0.5rem;
+  }
+ 
+  .project-card p {
+    font-size: 0.88rem;
+    color: var(--muted);
+    margin: 0;
+    line-height: 1.55;
+  }
+ 
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.9rem;
+  }
+ 
+  .tag {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    background: rgba(75, 143, 200, 0.08);
+    border: 1px solid rgba(75, 143, 200, 0.2);
+    padding: 0.2rem 0.5rem;
+  }
+ 
+  /* CONTACT */
+  .contact-row {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+ 
+  .contact-link {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+    padding-bottom: 2px;
+  }
+ 
+  .contact-link:hover { border-color: var(--accent); }
+ 
+  /* PUBLICATION */
+  .pub {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    padding: 1.2rem 1.4rem;
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-top: 0.5rem;
+  }
+ 
+  .pub em { color: var(--text); font-style: normal; }
+ 
+  /* ANIMATION */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+ 
+  section:nth-child(1) { animation-delay: 0.1s; }
+  section:nth-child(2) { animation-delay: 0.2s; }
+  section:nth-child(3) { animation-delay: 0.3s; }
+  section:nth-child(4) { animation-delay: 0.4s; }
+  section:nth-child(5) { animation-delay: 0.5s; }
+ 
+  /* FOOTER */
+  footer {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2rem;
+    border-top: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+</style>
+</head>
+<body>
+ 
+<header>
+  <div class="eyebrow">Engineering Portfolio</div>
+  <h1>Jay<span>.</span></h1>
+  <p class="tagline">
+    Engineering physics background. Hands-on with <strong>instrumentation, embedded systems, and heavy equipment</strong>. 
+    Comfortable building things that work in the real world — in a lab, a cleanroom, or a field.
+  </p>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+ 
+<main>
+ 
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-label">About</div>
+    <h2>Physics, fabrication,<br>and field work.</h2>
+    <p>
+      My path isn't a straight line — and that's the point. I've designed instruments in a cleanroom, debugged electronics at 2am, written lab manuals from scratch, and kept agricultural machinery running through a harvest season. Each environment taught me a different way to solve problems under constraint.
+    </p>
+    <p>
+      I'm drawn to work where the engineering is real — where something has to actually run, in conditions that aren't always ideal, with people depending on it. That's the kind of problem I want to spend my time on.
+    </p>
+    <div class="about-grid">
+      <div class="about-card">
+        <h3>Education</h3>
+        <p>MASc Engineering Physics (incomplete) — McMaster University<br>Thesis focus: Single-pass SPDC in nonlinear PPLN material</p>
+      </div>
+      <div class="about-card">
+        <h3>Currently</h3>
+        <p>Farmhand at Metro Farms, Hamilton ON — operating and maintaining heavy equipment through full crop cycles.</p>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-label">Experience</div>
+    <h2>Where I've worked.</h2>
+ 
+    <div class="job">
+      <div class="job-meta">
+        <span class="job-title">Farmhand</span>
+        <span class="job-date">Sep 2023 — Present</span>
+      </div>
+      <div class="job-org">Metro Farms · Hamilton, ON</div>
+      <ul>
+        <li>Operate tractors, skid steers, and sprayers across all phases of corn, wheat, and soybean production.</li>
+        <li>Troubleshoot and repair mechanical failures on farm equipment, minimizing operational downtime.</li>
+        <li>Perform preventative maintenance on a range of machinery and implements.</li>
+        <li>Adhere to safety protocols in environments with heavy machinery, chemicals, and seasonal time pressure.</li>
+      </ul>
+    </div>
+ 
+    <div class="job">
+      <div class="job-meta">
+        <span class="job-title">Instructional Assistant</span>
+        <span class="job-date">Jan 2023 — Aug 2023</span>
+      </div>
+      <div class="job-org">McMaster University · Hamilton, ON</div>
+      <ul>
+        <li>Developed, set up, and facilitated undergraduate practical labs for engineering physics students.</li>
+        <li>Managed a Class 10,000 cleanroom — oversight, facilitation, and equipment functionality.</li>
+        <li>Led weekly classroom and tutorial sessions with groups of 30 students.</li>
+        <li>Diagnosed and resolved technical issues with lab equipment, 3D printers, laser cutters, and servers.</li>
+      </ul>
+    </div>
+ 
+    <div class="job">
+      <div class="job-meta">
+        <span class="job-title">Lab Assistant</span>
+        <span class="job-date">Sep 2018 — Dec 2019</span>
+      </div>
+      <div class="job-org">McMaster University · Hamilton, ON</div>
+      <ul>
+        <li>Designed and fabricated modular Bluetooth tag tracking devices from scratch.</li>
+        <li>Programmed device firmware in Arduino (C++) and networked units using Raspberry Pi and Linux.</li>
+        <li>Sourced components, managed procurement, and presented progress reports at lab meetings.</li>
+      </ul>
+    </div>
+ 
+    <div class="job">
+      <div class="job-meta">
+        <span class="job-title">FRC Robotics Mentor</span>
+        <span class="job-date">2017 — 2019</span>
+      </div>
+      <div class="job-org">Team 6878 · FIRST Canada (Volunteer)</div>
+      <ul>
+        <li>Mentored high school students in robot design, fabrication, and software development.</li>
+        <li>Supported custom part fabrication and control system development for annual competition.</li>
+        <li>Traveled with the team to competitions, providing technical support on-site.</li>
+      </ul>
+    </div>
+  </section>
+ 
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-label">Projects</div>
+    <h2>Things I've built.</h2>
+    <div class="project-grid">
+ 
+      <div class="project-card">
+        <h3>Robotics Control PCB</h3>
+        <p>Designed and assembled a PCB for a robotic system integrating arm control, LiDAR, and motion systems. Led the full pipeline from circuit design to layout to soldering.</p>
+        <div class="tag-row">
+          <span class="tag">PCB Design</span>
+          <span class="tag">Embedded</span>
+          <span class="tag">LiDAR</span>
+        </div>
+      </div>
+ 
+      <div class="project-card">
+        <h3>Plant Monitoring System</h3>
+        <p>Developed a PCB to track humidity, temperature, light, and soil moisture. Integrated data upload to a web server for remote monitoring.</p>
+        <div class="tag-row">
+          <span class="tag">PCB Design</span>
+          <span class="tag">IoT</span>
+          <span class="tag">Sensors</span>
+        </div>
+      </div>
+ 
+      <div class="project-card">
+        <h3>Bluetooth Tracking System</h3>
+        <p>Designed modular devices to monitor the movement of Bluetooth tags through a building. Networked units using Raspberry Pi and Linux.</p>
+        <div class="tag-row">
+          <span class="tag">Arduino</span>
+          <span class="tag">Raspberry Pi</span>
+          <span class="tag">Linux</span>
+        </div>
+      </div>
+ 
+      <div class="project-card">
+        <h3>NHL Scoreboard</h3>
+        <p>Built a networked scoreboard running on Raspberry Pi with a 3D-printed case. Maintained the NHL API integration including library updates and unit tests.</p>
+        <div class="tag-row">
+          <span class="tag">Python</span>
+          <span class="tag">API</span>
+          <span class="tag">3D Printing</span>
+        </div>
+      </div>
+ 
+      <div class="project-card">
+        <h3>Undergraduate Lab Design</h3>
+        <p>Designed a complete practical lab experience from scratch — equipment procurement, experiment design, and full student manual — to demonstrate real-world applications of physics theory.</p>
+        <div class="tag-row">
+          <span class="tag">Instrumentation</span>
+          <span class="tag">Lab Design</span>
+          <span class="tag">Documentation</span>
+        </div>
+      </div>
+ 
+    </div>
+  </section>
+ 
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-label">Skills</div>
+    <h2>What I work with.</h2>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <h3>Programming</h3>
+        <ul>
+          <li>C++ / Arduino</li>
+          <li>Python</li>
+          <li>MATLAB</li>
+          <li>LaTeX</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h3>Electronics</h3>
+        <ul>
+          <li>PCB Design</li>
+          <li>Circuit Design & Debug</li>
+          <li>Soldering</li>
+          <li>Embedded Systems</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h3>Systems & OS</h3>
+        <ul>
+          <li>Linux (Ubuntu, Debian)</li>
+          <li>Raspberry Pi</li>
+          <li>macOS / Windows</li>
+          <li>Networking</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h3>Fabrication</h3>
+        <ul>
+          <li>MIG Welding</li>
+          <li>3D Printing & Design</li>
+          <li>Laser Cutting</li>
+          <li>Cleanroom Operations</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h3>Field & Equipment</h3>
+        <ul>
+          <li>Tractor Operation</li>
+          <li>Skid Steer</li>
+          <li>Mechanical Troubleshooting</li>
+          <li>Preventative Maintenance</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- PUBLICATION -->
+  <section id="publication">
+    <div class="section-label">Publication</div>
+    <h2>Research.</h2>
+    <div class="pub">
+      <em>A. Naber, J. Chaykowski, J. Jimmy, and W. Nahm</em> — "Diffuse reflectance Monte Carlo simulation to assess the transit time error in intraoperative fluorescence angiography," pp. 40–40, Apr. 2020. <a href="https://doi.org/10.1117/12.2555430" style="color: var(--accent2); text-decoration: none;">doi:10.1117/12.2555430</a>
+    </div>
+  </section>
+ 
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-label">Contact</div>
+    <h2>Get in touch.</h2>
+    <p>Open to opportunities in hands-on engineering, instrumentation, and applied R&D — especially in roles where the work has to function in real-world conditions.</p>
+    <div class="contact-row">
+      <a class="contact-link" href="https://github.com/azaroth08" target="_blank">GitHub →</a>
+      <a class="contact-link" href="mailto:jay.jay0088@gmail.com">Email →</a>
+    </div>
+  </section>
+ 
+</main>
+ 
+<footer>
+  <span>Jay — Engineering Portfolio</span>
+  <span>Hamilton, ON · Canada</span>
+</footer>
+ 
+</body>
+</html>
+ 
